@@ -23,6 +23,5 @@ export async function authorizationValidation(req, res, next) {
     return res.sendStatus(500);
   }
 
-
   next();
 }

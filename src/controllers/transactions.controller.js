@@ -1,17 +1,17 @@
-import { transactionsCollection } from "../database/db";
+import { transactionsCollection } from "../database/db.js";
 
 export async function addTransaction (req, res){
-    const {name, value, date, userLogged, isIncome} = req.body;
-  
+    const {description, value, date, userLogged, isIncome} = req.body;
+    const user = req.user;
     try {
 
       await transactionsCollection.insertOne({ 
-        name,
+        description,
         value,
         date,
         userLogged,
         isIncome,
-        userId: userLogged._id,
+        userId: user._id,
       });
 
       res.sendStatus(201);

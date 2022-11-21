@@ -1,4 +1,6 @@
 import {usersCollection, sessionsCollection} from '../database/db.js'
+import bcrypt from 'bcrypt'
+import { v4 as uuidV4 } from 'uuid'
 
 export async function signUp (req, res){
     const user = req.body;
@@ -6,7 +8,7 @@ export async function signUp (req, res){
     try {
       const hashPassword = bcrypt.hashSync(user.password, 10);
   
-      await usersCollection.insertOne({ ...user, password: hashPassword });
+      await usersCollection.insertOne({ ...user, password: hashPassword, passwordConfirmation: hashPassword });
       res.sendStatus(201);
     } catch (err) {
       console.log(err);
@@ -16,9 +18,9 @@ export async function signUp (req, res){
 
 export async function signIn(req, res) {
     const token = uuidV4();
-    const {name} = req.body
+    const {email} = req.body
     try {
-
+    const userExists = await usersCollection.findOne({ email });
     const userSession = await sessionsCollection.findOne({ userId: userExists._id });
   
     if (userSession) {
@@ -31,7 +33,8 @@ export async function signIn(req, res) {
         token,
         userId: userExists._id,
       });
-      res.send({ name, token });
+      res.send({ name: userExists.name,
+                 token });
 
     } catch (err) {
       console.log(err);
