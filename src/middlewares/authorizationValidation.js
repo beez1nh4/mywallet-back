@@ -1,4 +1,4 @@
-import { transactionsCollection, usersCollection } from "../database/db.js";
+import { sessionsCollection, usersCollection } from "../database/db.js";
 
 export async function authorizationValidation(req, res, next) {
   const { authorization } = req.headers;
@@ -9,8 +9,8 @@ export async function authorizationValidation(req, res, next) {
   }
 
   try {
-    const transaction = await transactionsCollection.findOne({ token });
-    const user = await usersCollection.findOne({ _id: transaction?.userId });
+    const session = await sessionsCollection.findOne({ token });
+    const user = await usersCollection.findOne({ _id: session?.userId });
 
     if (!user) {
       return res.sendStatus(401);

@@ -19,9 +19,9 @@ export async function signIn(req, res) {
     const {name} = req.body
     try {
 
-        const userSession = await sessionsCollection.findOne({ userId: userExists._id });
+    const userSession = await sessionsCollection.findOne({ userId: userExists._id });
   
-      if (userSession) {
+    if (userSession) {
         return res
           .status(401)
           .send({ message: "Você já está logado, saia para logar novamente" });
