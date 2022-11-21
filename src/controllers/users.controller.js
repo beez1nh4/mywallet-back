@@ -21,14 +21,7 @@ export async function signIn(req, res) {
     const {email} = req.body
     try {
     const userExists = await usersCollection.findOne({ email });
-    const userSession = await sessionsCollection.findOne({ userId: userExists._id });
-  
-    if (userSession) {
-        return res
-          .status(401)
-          .send({ message: "Você já está logado, saia para logar novamente" });
-      }
-
+    
       await sessionsCollection.insertOne({
         token,
         userId: userExists._id,

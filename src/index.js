@@ -12,4 +12,4 @@ app.use(cors());
 app.use(userRoutes);
 app.use(transactionsRoutes);
 
-app.listen(5000, () => console.log("Port 5000"));
+app.listen(process.env.PORT, () => console.log("Port"+process.env.PORT));
