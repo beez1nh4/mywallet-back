@@ -10,3 +10,7 @@ try {
 } catch (err) {
   console.log(err);
 }
+
+const db = mongoClient.db("myWallet");
+export const usersCollection = db.collection("users");
+export const transactionsCollection = db.collection("transactions");
