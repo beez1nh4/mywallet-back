@@ -6,6 +6,7 @@ export async function signUpBodyValidation(req, res, next) {
   const { error } = usersSignUpSchema.validate(user, { abortEarly: false });
 
   if (error) {
+    console.log(error)
     const errors = error.details.map((detail) => detail.message);
     return res.status(400).send(errors);
   }
